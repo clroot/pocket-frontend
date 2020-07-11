@@ -21,7 +21,10 @@ export const changeField = createAction(
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const save = createAction(SAVE, ({ url }) => ({ url }));
-export const getList = createAction(GET_LIST, () => ({}));
+export const getList = createAction(GET_LIST, ({ page, tag }) => ({
+  page,
+  tag,
+}));
 
 const saveSaga = createRequestSaga(SAVE, articleAPI.save);
 const getListSaga = createRequestSaga(GET_LIST, articleAPI.list);
@@ -35,6 +38,7 @@ const initialState = {
     url: '',
   },
   list: [],
+  lastPage: 1,
   articleError: null,
 };
 
@@ -56,9 +60,10 @@ const article = handleActions(
       ...state,
       articleError: error,
     }),
-    [GET_LIST_SUCCESS]: (state, { payload: list }) => ({
+    [GET_LIST_SUCCESS]: (state, { payload: list, meta: response }) => ({
       ...state,
       list,
+      lastPage: parseInt(response.headers['last-page'], 10),
     }),
     [GET_LIST_FAILURE]: (state, { payload: error }) => ({
       ...state,
