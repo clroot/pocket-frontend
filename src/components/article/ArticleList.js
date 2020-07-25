@@ -11,7 +11,7 @@ const ArticleListBlock = styled(Responsive)`
   position: relative;
 `;
 
-const ArticleCardBlock = styled.div`
+const ArticleItemBlock = styled.div`
   width: 33.3%; /*TODO: 반응형 구현*/
   padding: 1rem;
   position: relative;
@@ -48,27 +48,27 @@ const StyledDescription = styled.div`
   overflow: hidden;
 `;
 
-const ArticleCard = ({ article }) => {
+const ArticleItem = ({ article }) => {
   const {
     url,
     meta: { title, description, img },
   } = article;
 
   return (
-    <ArticleCardBlock>
+    <ArticleItemBlock>
       <ArticleThumbnail src={img} alt="" />
       <StyledTitle href={url}>{title}</StyledTitle>
       <StyledDescription>{description}</StyledDescription>
-    </ArticleCardBlock>
+    </ArticleItemBlock>
   );
 };
 
-const ArticleList = ({ list }) => {
+const ArticleList = ({ list, loading }) => {
   return (
     <ArticleListBlock>
-      {list.map((iter) => (
-        <ArticleCard key={iter._id} article={iter} />
-      ))}
+      {!loading &&
+        list &&
+        list.map((iter) => <ArticleItem key={iter._id} article={iter} />)}
     </ArticleListBlock>
   );
 };
