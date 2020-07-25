@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { changeField, save } from '../../modules/article';
 import ArticleForm from '../../components/article/ArticleForm';
 
-const ArticleFormContainer = () => {
+const ArticleFormContainer = ({ history }) => {
   const dispatch = useDispatch();
 
   const { form } = useSelector(({ article }) => ({
@@ -21,9 +22,10 @@ const ArticleFormContainer = () => {
     dispatch(changeField({ form: 'newArticle', key: 'url', value: '' }));
     const { url } = form;
     dispatch(save({ url }));
+    history.push('/');
   };
 
   return <ArticleForm form={form} onChange={onChange} onSubmit={onSubmit} />;
 };
 
-export default ArticleFormContainer;
+export default withRouter(ArticleFormContainer);
