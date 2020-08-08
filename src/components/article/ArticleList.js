@@ -18,6 +18,7 @@ const ArticleItemBlock = styled.div`
 `;
 
 const ArticleThumbnail = styled.img`
+  display: block !important;
   box-sizing: border-box;
   position: relative;
   border-radius: 4px;
