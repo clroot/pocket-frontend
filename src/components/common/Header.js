@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import Responsive from './Responsive';
 import Button from './Button';
 import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/palette';
 
 const HeaderBlock = styled.div`
   position: fixed;
   z-index: 10;
   width: 100%;
-  background: white;
+  background: ${palette.gray[0]};
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
 `;
 
