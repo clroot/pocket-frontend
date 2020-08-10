@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Responsive from '../common/Responsive';
 
-const ArticleFormBlock = styled(Responsive)`
+const ArticleFormBlock = styled.div`
   margin-top: 1rem;
 `;
 

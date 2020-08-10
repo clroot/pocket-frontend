@@ -6,9 +6,10 @@ import Button from '../common/Button';
 const PaginationBlock = styled.div`
   width: 320px;
   margin: 0 auto;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 3rem;
 `;
 const PageNumber = styled.div``;
 
