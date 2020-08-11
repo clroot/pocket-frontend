@@ -11,3 +11,5 @@ export const list = ({ page, tag }) => {
 
 export const save = ({ url, tags = [] }) =>
   client.post('/api/v1/articles', { url, tags });
+
+export const remove = (id) => client.delete(`/api/v1/articles/${id}`);
