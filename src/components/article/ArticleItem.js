@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import AskRemoveModal from './AskRemoveModal';
 import palette from '../../lib/styles/palette';
-import { remove } from '../../lib/api/articles';
 
 const ArticleItemBlock = styled.div`
   display: flex;

@@ -78,9 +78,15 @@ const article = handleActions(
     }),
     [REMOVE_SUCCESS]: (state, { meta: response }) =>
       produce(state, (draft) => {
-        const _id = response.config.url.split('/')[4]; //TODO: 삭제한 _id를 구해오는 더 나은방법 찾아보기
+        console.log(response);
+        const _id = response.headers['removed-article'];
+        console.log(_id);
         draft.list = draft.list.filter((iter) => iter._id !== _id);
       }),
+    [REMOVE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      articleError: error,
+    }),
   },
   initialState,
 );
