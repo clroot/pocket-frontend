@@ -10,11 +10,13 @@ const ArticleListBlock = styled.div`
   position: relative;
 `;
 
-const ArticleList = ({ list, loading }) => {
+const ArticleList = ({ list, loading, onRemove }) => {
   return (
     <ArticleListBlock>
       {!loading &&
-        list?.map((iter) => <ArticleItem key={iter._id} article={iter} />)}
+        list?.map((iter) => (
+          <ArticleItem key={iter._id} article={iter} onRemove={onRemove} />
+        ))}
     </ArticleListBlock>
   );
 };

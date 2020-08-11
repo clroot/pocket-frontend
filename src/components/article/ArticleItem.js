@@ -69,8 +69,9 @@ const ArticleFooter = styled.div`
     margin-left: 6px;
   }
 `;
-const ArticleItem = ({ article }) => {
+const ArticleItem = ({ article, onRemove }) => {
   const {
+    _id,
     url,
     meta: { title, description, img },
   } = article;
@@ -84,7 +85,7 @@ const ArticleItem = ({ article }) => {
   };
   const onConfirm = () => {
     setModal(false);
-    //onRemove();
+    onRemove(_id);
   };
 
   return (
@@ -102,6 +103,7 @@ const ArticleItem = ({ article }) => {
         visible={modal}
         onConfirm={onConfirm}
         onCancel={onCancel}
+        onRemove={onRemove}
       />
     </ArticleItemBlock>
   );

@@ -9,10 +9,13 @@ import * as articleAPI from '../lib/api/articles';
 const CHANGE_FIELD = 'article/CHANGE_FIELD';
 const INITIALIZE_FORM = 'article/INITIALIZE_FORM';
 const [SAVE, SAVE_SUCCESS, SAVE_FAILURE] = createRequestActionTypes(
-  'article/SAVE_ARTICLE',
+  'article/SAVE',
 );
 const [GET_LIST, GET_LIST_SUCCESS, GET_LIST_FAILURE] = createRequestActionTypes(
   'article/GET_LIST',
+);
+const [REMOVE, REMOVE_SUCCESS, REMOVE_FAILURE] = createRequestActionTypes(
+  'article/REMOVE',
 );
 
 export const changeField = createAction(
@@ -25,12 +28,16 @@ export const getList = createAction(GET_LIST, ({ page, tag }) => ({
   page,
   tag,
 }));
+export const remove = createAction(REMOVE, ({ _id }) => ({ _id }));
 
 const saveSaga = createRequestSaga(SAVE, articleAPI.save);
 const getListSaga = createRequestSaga(GET_LIST, articleAPI.list);
+const removeSage = createRequestSaga(REMOVE, articleAPI.remove);
+
 export function* articleSaga() {
   yield takeLatest(SAVE, saveSaga);
   yield takeLatest(GET_LIST, getListSaga);
+  yield takeLatest(REMOVE, removeSage);
 }
 
 const initialState = {
@@ -69,6 +76,11 @@ const article = handleActions(
       ...state,
       articleError: error,
     }),
+    [REMOVE_SUCCESS]: (state, { meta: response }) =>
+      produce(state, (draft) => {
+        const _id = response.config.url.split('/')[4]; //TODO: 삭제한 _id를 구해오는 더 나은방법 찾아보기
+        draft.list = draft.list.filter((iter) => iter._id !== _id);
+      }),
   },
   initialState,
 );
