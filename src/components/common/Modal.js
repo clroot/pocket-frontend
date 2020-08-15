@@ -50,6 +50,9 @@ const Modal = ({
   onConfirm,
   onCancel,
 }) => {
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
   useEffect(() => {
     const onKeyup = (e) => {
       const keyCode = e?.keyCode ?? e?.which;
@@ -68,7 +71,7 @@ const Modal = ({
 
   return (
     <Fullscreen onClick={onCancel}>
-      <ModalBlock>
+      <ModalBlock onClick={stopPropagation}>
         <h2>{title}</h2>
         {description && <p>{description}</p>}
         {children}
