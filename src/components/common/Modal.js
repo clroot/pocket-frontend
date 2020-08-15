@@ -14,7 +14,7 @@ const Fullscreen = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const AskModalBlock = styled.div`
+const ModalBlock = styled.div`
   width: 320px;
   background: white;
   padding: 1.5rem;
@@ -40,10 +40,11 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const AskModal = ({
+const Modal = ({
   visible,
   title,
   description,
+  children = undefined,
   confirmText = '확인',
   cancelText = '취소',
   onConfirm,
@@ -66,19 +67,20 @@ const AskModal = ({
   if (!visible) return null;
 
   return (
-    <Fullscreen>
-      <AskModalBlock>
+    <Fullscreen onClick={onCancel}>
+      <ModalBlock>
         <h2>{title}</h2>
-        <p>{description}</p>
+        {description && <p>{description}</p>}
+        {children}
         <div className="buttons">
           <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
           <StyledButton cyan onClick={onConfirm}>
             {confirmText}
           </StyledButton>
         </div>
-      </AskModalBlock>
+      </ModalBlock>
     </Fullscreen>
   );
 };
 
-export default AskModal;
+export default Modal;

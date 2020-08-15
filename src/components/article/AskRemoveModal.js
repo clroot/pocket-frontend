@@ -1,9 +1,9 @@
 import React from 'react';
-import AskModal from '../common/AskModal';
+import Modal from '../common/Modal';
 
 const AskRemoveModal = ({ visible, onConfirm, onCancel }) => {
   return (
-    <AskModal
+    <Modal
       visible={visible}
       title="아티클 삭제"
       description="아티클을 정말 삭제하시겠습니까?"
