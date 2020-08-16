@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Button from './Button';
 
 const Fullscreen = styled.div`
@@ -15,7 +15,11 @@ const Fullscreen = styled.div`
   align-items: center;
 `;
 const ModalBlock = styled.div`
-  width: 320px;
+  ${(props) =>
+    props.width &&
+    css`
+      width: ${props.width};
+    `}
   background: white;
   padding: 1.5rem;
   border-radius: 4px;
@@ -44,6 +48,7 @@ const Modal = ({
   visible,
   title,
   description,
+  width = '320px',
   children = undefined,
   confirmText = '확인',
   cancelText = '취소',
@@ -71,7 +76,7 @@ const Modal = ({
 
   return (
     <Fullscreen onClick={onCancel}>
-      <ModalBlock onClick={stopPropagation}>
+      <ModalBlock onClick={stopPropagation} width={width}>
         <h2>{title}</h2>
         {description && <p>{description}</p>}
         {children}
