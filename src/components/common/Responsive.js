@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ResponsiveBlock = styled.div`
+  overflow-x: hidden;
   padding-left: 1rem;
   padding-right: 1rem;
   width: 1728px;
