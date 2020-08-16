@@ -1,6 +1,8 @@
 import qs from 'qs';
 import client from './client';
 
+export const get = ({ _id }) => client.get(`/api/v1/articles/${_id}`);
+
 export const list = ({ page, tag }) => {
   const queryString = qs.stringify({
     page,

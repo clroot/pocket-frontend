@@ -11,6 +11,9 @@ const INITIALIZE_FORM = 'article/INITIALIZE_FORM';
 const [SAVE, SAVE_SUCCESS, SAVE_FAILURE] = createRequestActionTypes(
   'article/SAVE',
 );
+const [GET_ONCE, GET_ONCE_SUCCESS, GET_ONCE_FAILURE] = createRequestActionTypes(
+  'article/GET',
+);
 const [GET_LIST, GET_LIST_SUCCESS, GET_LIST_FAILURE] = createRequestActionTypes(
   'article/GET_LIST',
 );
@@ -24,6 +27,7 @@ export const changeField = createAction(
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const save = createAction(SAVE, ({ url }) => ({ url }));
+export const getOnce = createAction(GET_ONCE, ({ _id }) => ({ _id }));
 export const getList = createAction(GET_LIST, ({ page, tag }) => ({
   page,
   tag,
@@ -31,11 +35,13 @@ export const getList = createAction(GET_LIST, ({ page, tag }) => ({
 export const remove = createAction(REMOVE, ({ _id }) => ({ _id }));
 
 const saveSaga = createRequestSaga(SAVE, articleAPI.save);
+const getOnceSaga = createRequestSaga(GET_ONCE, articleAPI.get);
 const getListSaga = createRequestSaga(GET_LIST, articleAPI.list);
 const removeSage = createRequestSaga(REMOVE, articleAPI.remove);
 
 export function* articleSaga() {
   yield takeLatest(SAVE, saveSaga);
+  yield takeLatest(GET_ONCE, getOnceSaga);
   yield takeLatest(GET_LIST, getListSaga);
   yield takeLatest(REMOVE, removeSage);
 }
@@ -43,6 +49,9 @@ export function* articleSaga() {
 const initialState = {
   newArticle: {
     url: '',
+  },
+  edit: {
+    tags: [],
   },
   list: [],
   lastPage: 1,
@@ -67,6 +76,14 @@ const article = handleActions(
       ...state,
       articleError: error,
     }),
+    [GET_ONCE_SUCCESS]: (state, { payload: article }) =>
+      produce(state, (draft) => {
+        draft.edit.tags = article.tags;
+      }),
+    [GET_ONCE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      articleError: error,
+    }),
     [GET_LIST_SUCCESS]: (state, { payload: list, meta: response }) => ({
       ...state,
       list,
@@ -78,9 +95,7 @@ const article = handleActions(
     }),
     [REMOVE_SUCCESS]: (state, { meta: response }) =>
       produce(state, (draft) => {
-        console.log(response);
         const _id = response.headers['removed-article'];
-        console.log(_id);
         draft.list = draft.list.filter((iter) => iter._id !== _id);
       }),
     [REMOVE_FAILURE]: (state, { payload: error }) => ({
