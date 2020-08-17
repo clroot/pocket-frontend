@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
-import { getList, remove } from '../../modules/article';
+import { getList } from '../../modules/article';
 import ArticleList from '../../components/article/ArticleList';
 
 const ArticleListContainer = ({ location, history }) => {
@@ -16,10 +16,6 @@ const ArticleListContainer = ({ location, history }) => {
     }),
   );
 
-  const onArticleRemove = (_id) => {
-    dispatch(remove({ _id }));
-  };
-
   useEffect(() => {
     const { tag, page } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
@@ -30,7 +26,7 @@ const ArticleListContainer = ({ location, history }) => {
 
   useEffect(() => {
     if (articleError) {
-      //TODO: error 구현
+      console.error(articleError);
     }
   }, [articleError, dispatch]);
 
@@ -40,9 +36,7 @@ const ArticleListContainer = ({ location, history }) => {
     }
   });
 
-  return (
-    <ArticleList list={list} loading={loading} onRemove={onArticleRemove} />
-  );
+  return !articleError ? <ArticleList list={list} loading={loading} /> : null;
 };
 
 export default withRouter(ArticleListContainer);

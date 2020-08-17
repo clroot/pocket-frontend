@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from '../common/Modal';
 
-const AskRemoveModal = ({ visible, onConfirm, onCancel }) => {
+const AskRemoveModal = ({ visible, onCancel, onConfirm }) => {
   return (
     <Modal
       visible={visible}
