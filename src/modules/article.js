@@ -52,6 +52,7 @@ const initialState = {
   },
   edit: {
     tags: [],
+    newTag: '',
   },
   list: [],
   lastPage: 1,
@@ -79,6 +80,7 @@ const article = handleActions(
     [GET_ONCE_SUCCESS]: (state, { payload: article }) =>
       produce(state, (draft) => {
         draft.edit.tags = article.tags;
+        draft.edit.newTag = '';
       }),
     [GET_ONCE_FAILURE]: (state, { payload: error }) => ({
       ...state,

@@ -14,4 +14,7 @@ export const list = ({ page, tag }) => {
 export const save = ({ url, tags = [] }) =>
   client.post('/api/v1/articles', { url, tags });
 
+export const update = ({ _id, tags }) =>
+  client.patch(`/api/v1/articles/${_id}`, { tags });
+
 export const remove = ({ _id }) => client.delete(`/api/v1/articles/${_id}`);
