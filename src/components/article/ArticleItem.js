@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import AskRemoveModal from './AskRemoveModal';
+import { FaTags, FaTrash } from 'react-icons/fa';
+import EditArticleModalContainer from '../../containers/article/EditArticleModalContainer';
+import AskRemoveModalContainer from '../../containers/article/AskRemoveModalContainer';
 import palette from '../../lib/styles/palette';
 
 const ArticleItemBlock = styled.div`
@@ -66,25 +66,24 @@ const ArticleFooter = styled.div`
   border-top: 1px solid rgb(248, 249, 250);
   & * {
     margin-left: 6px;
+    color: ${palette.gray[6]};
   }
 `;
-const ArticleItem = ({ article, onRemove }) => {
+const ArticleItem = ({ article }) => {
   const {
     _id,
     url,
     meta: { title, description, img },
+    tags,
   } = article;
 
-  const [modal, setModal] = useState(false);
-  const onRemoveClick = () => {
-    setModal(true);
+  const [editModal, setEditModal] = useState(false);
+  const [removeModal, setRemoveModal] = useState(false);
+  const onClick = (updater) => () => {
+    updater(true);
   };
-  const onCancel = () => {
-    setModal(false);
-  };
-  const onConfirm = () => {
-    setModal(false);
-    onRemove(_id);
+  const onCancel = (updater) => () => {
+    updater(false);
   };
 
   return (
@@ -95,14 +94,19 @@ const ArticleItem = ({ article, onRemove }) => {
         <StyledDescription>{description}</StyledDescription>
       </ArticleContent>
       <ArticleFooter>
-        <FaEdit style={{ color: palette.gray[6] }} />
-        <FaTrash onClick={onRemoveClick} style={{ color: palette.gray[6] }} />
+        <FaTags onClick={onClick(setEditModal)} />
+        <FaTrash onClick={onClick(setRemoveModal)} />
       </ArticleFooter>
-      <AskRemoveModal
-        visible={modal}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-        onRemove={onRemove}
+      <EditArticleModalContainer
+        visible={editModal}
+        _id={_id}
+        tags={tags}
+        onCancel={onCancel(setEditModal)}
+      />
+      <AskRemoveModalContainer
+        visible={removeModal}
+        _id={_id}
+        onCancel={onCancel(setRemoveModal)}
       />
     </ArticleItemBlock>
   );
