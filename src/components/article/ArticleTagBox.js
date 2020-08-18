@@ -39,11 +39,23 @@ const TagForm = styled.form`
 `;
 
 const Tag = styled.div`
-  margin-right: 0.5rem;
-  color: ${palette.gray[6]};
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: ${palette.indigo[6]};
+  margin-right: 0.75rem;
   cursor: pointer;
+  margin-bottom: 0.75rem;
+  border-radius: 1rem;
+  background: ${palette.gray[2]};
+  transition: all 0.125s ease-in 0s;
+  animation: 0.125s ease-in-out 0s 1 normal forwards running iMKika;
+
   &:hover {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 `;
 
@@ -52,17 +64,26 @@ const TagListBlock = styled.div`
   margin-top: 0.5rem;
 `;
 
-const TagItem = React.memo(({ tag }) => <Tag>#{tag}</Tag>);
-
-const TagList = React.memo(({ tags }) => (
-  <TagListBlock>
-    {tags.map((tag) => (
-      <TagItem key={tag} tag={tag} />
-    ))}
-  </TagListBlock>
+const TagItem = React.memo(({ tag, onClick }) => (
+  <Tag onClick={onClick}>#{tag}</Tag>
 ));
 
-const TagBox = ({ tags, newTag, onChange, onSubmit }) => {
+const TagList = React.memo(({ tags, onRemove }) => {
+  const onClick = (tag) => (e) => {
+    console.log(e);
+    onRemove(tag);
+  };
+
+  return (
+    <TagListBlock>
+      {tags.map((tag) => (
+        <TagItem key={tag} tag={tag} onClick={onClick(tag)} />
+      ))}
+    </TagListBlock>
+  );
+});
+
+const TagBox = ({ tags, newTag, onChange, onRemove, onSubmit }) => {
   return (
     <TagBoxBlock>
       <TagForm onSubmit={onSubmit}>
@@ -74,7 +95,7 @@ const TagBox = ({ tags, newTag, onChange, onSubmit }) => {
         />
         <button type="submit">추가</button>
       </TagForm>
-      <TagList tags={tags} />
+      <TagList tags={tags} onRemove={onRemove} />
     </TagBoxBlock>
   );
 };

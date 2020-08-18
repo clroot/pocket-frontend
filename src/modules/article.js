@@ -8,6 +8,7 @@ import * as articleAPI from '../lib/api/articles';
 
 const CHANGE_FIELD = 'article/CHANGE_FIELD';
 const INITIALIZE_FORM = 'article/INITIALIZE_FORM';
+const UPDATE_TAGS = 'article/REMOVE_TAG';
 const [SAVE, SAVE_SUCCESS, SAVE_FAILURE] = createRequestActionTypes(
   'article/SAVE',
 );
@@ -26,6 +27,10 @@ export const changeField = createAction(
   ({ form, key, value }) => ({ form, key, value }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
+export const updateTags = createAction(UPDATE_TAGS, ({ _id, tags }) => ({
+  _id,
+  tags,
+}));
 export const save = createAction(SAVE, ({ url }) => ({ url }));
 export const getOnce = createAction(GET_ONCE, ({ _id }) => ({ _id }));
 export const getList = createAction(GET_LIST, ({ page, tag }) => ({
@@ -69,6 +74,10 @@ const article = handleActions(
       ...state,
       [form]: initialState[form],
     }),
+    [UPDATE_TAGS]: (state, { payload: { _id, tags } }) =>
+      produce(state, (draft) => {
+        draft.list.find((iter) => iter._id === _id).tags = tags;
+      }),
     [SAVE_SUCCESS]: (state, { payload: article }) => ({
       ...state,
       list: [article].concat(state.list),

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm } from '../../modules/article';
+import { changeField, initializeForm, updateTags } from '../../modules/article';
 import EditArticleModal from '../../components/article/EditArticleModal';
 import { update } from '../../lib/api/articles';
 
@@ -29,6 +29,10 @@ const EditArticleModalContainer = ({
     const { value } = e.target;
     dispatch(changeField({ form: 'edit', key: 'newTag', value }));
   };
+  const onRemove = (tag) => {
+    const filteredTags = tags.filter((iter) => iter !== tag);
+    dispatch(changeField({ form: 'edit', key: 'tags', value: filteredTags }));
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     if (newTag.length === 0) return;
@@ -37,9 +41,11 @@ const EditArticleModalContainer = ({
     );
     dispatch(changeField({ form: 'edit', key: 'newTag', value: '' }));
   };
+
   const onConfirm = () => {
     try {
       update({ _id, tags });
+      dispatch(updateTags({ _id, tags }));
       onCancel();
     } catch (error) {
       console.error(error);
@@ -52,6 +58,7 @@ const EditArticleModalContainer = ({
       tags={tags}
       newTag={newTag}
       onChange={onChange}
+      onRemove={onRemove}
       onSubmit={onSubmit}
       onConfirm={onConfirm}
       onCancel={onCancel}

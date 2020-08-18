@@ -7,6 +7,7 @@ const EditArticleModal = ({
   tags,
   newTag,
   onChange,
+  onRemove,
   onSubmit,
   onConfirm,
   onCancel,
@@ -24,6 +25,7 @@ const EditArticleModal = ({
         tags={tags}
         newTag={newTag}
         onChange={onChange}
+        onRemove={onRemove}
         onSubmit={onSubmit}
       />
     </Modal>
