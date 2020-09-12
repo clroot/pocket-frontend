@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import { takeLatest, call } from 'redux-saga/effects';
+import produce from 'immer';
 
 import createRequestSaga, {
   createRequestActionTypes,
@@ -15,11 +16,13 @@ const LOGOUT = 'user/LOGOUT';
 const [GET_TAGS, GET_TAGS_SUCCESS, GET_TAGS_FAILURE] = createRequestActionTypes(
   'user/GET_TAGS',
 );
+const ADD_TAGS = 'user/ADD_TAGS';
 
 export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 export const getTags = createAction(GET_TAGS, () => ({}));
+export const addTags = createAction(ADD_TAGS, (tags) => tags);
 
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
 const getTagsSaga = createRequestSaga(GET_TAGS, userAPI.getTags);
@@ -82,6 +85,10 @@ export default handleActions(
       ...state,
       tags: null,
     }),
+    [ADD_TAGS]: (state, { payload: tags }) =>
+      produce(state, (draft) => {
+        draft.tags = [...new Set([...state.tags, ...tags])];
+      }),
   },
   initialState,
 );
