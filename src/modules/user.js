@@ -5,18 +5,25 @@ import createRequestSaga, {
   createRequestActionTypes,
 } from '../lib/createRequestSaga';
 import * as authAPI from '../lib/api/auth';
+import * as userAPI from '../lib/api/user';
 
 const TEMP_SET_USER = 'user/TEMP_SET_USER';
 const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes(
   'user/CHECK',
 );
 const LOGOUT = 'user/LOGOUT';
+const [GET_TAGS, GET_TAGS_SUCCESS, GET_TAGS_FAILURE] = createRequestActionTypes(
+  'user/GET_TAGS',
+);
 
 export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
+export const getTags = createAction(GET_TAGS, () => ({}));
 
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
+const getTagsSaga = createRequestSaga(GET_TAGS, userAPI.getTags);
+
 function checkFailureSaga() {
   try {
     localStorage.removeItem('user');
@@ -38,10 +45,12 @@ export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
   yield takeLatest(CHECK_FAILURE, checkFailureSaga);
   yield takeLatest(LOGOUT, logoutSaga);
+  yield takeLatest(GET_TAGS, getTagsSaga);
 }
 
 const initialState = {
   user: null,
+  tags: null,
   checkError: null,
 };
 
@@ -64,6 +73,14 @@ export default handleActions(
     [LOGOUT]: (state) => ({
       ...state,
       user: null,
+    }),
+    [GET_TAGS_SUCCESS]: (state, { payload: tags }) => ({
+      ...state,
+      tags,
+    }),
+    [GET_TAGS_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      tags: null,
     }),
   },
   initialState,
