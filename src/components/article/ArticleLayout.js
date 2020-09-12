@@ -28,8 +28,8 @@ const Side = styled.aside`
 const ArticleLayout = ({ main, side }) => {
   return (
     <Block>
-      <Side>{side}</Side>
       <Main>{main}</Main>
+      <Side>{side}</Side>
     </Block>
   );
 };
