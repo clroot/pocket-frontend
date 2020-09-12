@@ -6,10 +6,12 @@ const SideMenuBlock = styled.div`
   position: fixed;
 `;
 
-const SideMenu = () => {
+const SideMenu = ({ tags }) => {
   return (
     <Sticky top={112}>
-      <SideMenuBlock>SideMenu</SideMenuBlock>
+      <SideMenuBlock>
+        {Array.isArray(tags) && tags.map((tag) => <p>#{tag}</p>)}
+      </SideMenuBlock>
     </Sticky>
   );
 };
