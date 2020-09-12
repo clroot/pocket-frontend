@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, updateTags } from '../../modules/article';
 import EditArticleModal from '../../components/article/EditArticleModal';
+import { changeField, initializeForm, updateTags } from '../../modules/article';
+import { addTags } from '../../modules/user';
 import { update } from '../../lib/api/articles';
 
 const EditArticleModalContainer = ({
@@ -29,10 +30,13 @@ const EditArticleModalContainer = ({
     const { value } = e.target;
     dispatch(changeField({ form: 'edit', key: 'newTag', value }));
   };
+
   const onRemove = (tag) => {
     const filteredTags = tags.filter((iter) => iter !== tag);
     dispatch(changeField({ form: 'edit', key: 'tags', value: filteredTags }));
   };
+
+  //when new Tag is added
   const onSubmit = (e) => {
     e.preventDefault();
     if (newTag.length === 0) return;
@@ -42,10 +46,12 @@ const EditArticleModalContainer = ({
     dispatch(changeField({ form: 'edit', key: 'newTag', value: '' }));
   };
 
+  //when saving tags request is accrued
   const onConfirm = () => {
     try {
       update({ _id, tags });
       dispatch(updateTags({ _id, tags }));
+      dispatch(addTags(tags));
       onCancel();
     } catch (error) {
       console.error(error);
