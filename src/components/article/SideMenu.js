@@ -50,7 +50,9 @@ const SideMenu = ({ location, tags }) => {
   return (
     <Sticky top={112}>
       <SideMenuBlock>
-        <StyledTitle>태그</StyledTitle>
+        {Array.isArray(tags) && tags.length > 0 && (
+          <StyledTitle>태그</StyledTitle>
+        )}
         {Array.isArray(tags) &&
           tags.map((tag) => <TagLink tag={tag} active={tag === activeTag} />)}
       </SideMenuBlock>
