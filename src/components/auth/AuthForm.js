@@ -70,7 +70,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
           value={form.username}
         />
         <StyledInput
-          autoComplete="new-password"
+          autoComplete="current-password"
           name="password"
           placeholder="비밀번호"
           type="password"
