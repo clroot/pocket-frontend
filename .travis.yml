@@ -8,6 +8,9 @@ notifications:
   email:
     recipients:
       - abcdkh1209@icloud.com
+script:
+  - yarn test
+  - yarn build
 before_deploy:
   - mkdir -p before-deploy
   - cp -r build/* before-deploy
