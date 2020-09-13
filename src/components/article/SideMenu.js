@@ -10,7 +10,7 @@ const SideMenuBlock = styled.div`
   padding-left: 0.5rem;
 `;
 
-const StyledH4 = styled.h4`
+const StyledTitle = styled.h4`
   line-height: 1.5;
   font-size: 0.875rem;
   padding-bottom: 0.5rem;
@@ -50,7 +50,7 @@ const SideMenu = ({ location, tags }) => {
   return (
     <Sticky top={112}>
       <SideMenuBlock>
-        <StyledH4>태그</StyledH4>
+        <StyledTitle>태그</StyledTitle>
         {Array.isArray(tags) &&
           tags.map((tag) => <TagLink tag={tag} active={tag === activeTag} />)}
       </SideMenuBlock>
