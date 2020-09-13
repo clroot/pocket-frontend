@@ -36,7 +36,7 @@ const ArticleListContainer = ({ location, history }) => {
     }
   });
 
-  return !articleError ? <ArticleList list={list} loading={loading} /> : null;
+  return Array.isArray(list) && <ArticleList list={list} loading={loading} />;
 };
 
 export default withRouter(ArticleListContainer);
