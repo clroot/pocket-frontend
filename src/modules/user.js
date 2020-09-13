@@ -17,12 +17,14 @@ const [GET_TAGS, GET_TAGS_SUCCESS, GET_TAGS_FAILURE] = createRequestActionTypes(
   'user/GET_TAGS',
 );
 const ADD_TAGS = 'user/ADD_TAGS';
+const RESET = 'user/RESET';
 
 export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 export const getTags = createAction(GET_TAGS, () => ({}));
 export const addTags = createAction(ADD_TAGS, (tags) => tags);
+export const reset = createAction(RESET, () => ({}));
 
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
 const getTagsSaga = createRequestSaga(GET_TAGS, userAPI.getTags);
@@ -89,6 +91,7 @@ export default handleActions(
       produce(state, (draft) => {
         draft.tags = [...new Set([...state.tags, ...tags])];
       }),
+    [RESET]: () => ({ ...initialState }),
   },
   initialState,
 );

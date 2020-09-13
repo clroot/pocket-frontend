@@ -8,30 +8,28 @@ import * as authAPI from '../lib/api/auth';
 
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
-
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes(
   'auth/REGISTER',
 );
-
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(
   'auth/LOGIN',
 );
+const RESET = 'auth/RESET';
 
 export const changeField = createAction(
   CHANGE_FIELD,
   ({ form, key, value }) => ({ form, key, value }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
-
 export const register = createAction(REGISTER, ({ username, password }) => ({
   username,
   password,
 }));
-
 export const login = createAction(LOGIN, ({ username, password }) => ({
   username,
   password,
 }));
+export const reset = createAction(RESET, () => ({}));
 
 // Create SAGA
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
@@ -84,6 +82,7 @@ const auth = handleActions(
       ...state,
       authError: error,
     }),
+    [RESET]: () => ({ ...initialState }),
   },
   initialState,
 );

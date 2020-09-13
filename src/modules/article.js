@@ -21,6 +21,7 @@ const [GET_LIST, GET_LIST_SUCCESS, GET_LIST_FAILURE] = createRequestActionTypes(
 const [REMOVE, REMOVE_SUCCESS, REMOVE_FAILURE] = createRequestActionTypes(
   'article/REMOVE',
 );
+const RESET = 'article/RESET';
 
 export const changeField = createAction(
   CHANGE_FIELD,
@@ -38,6 +39,7 @@ export const getList = createAction(GET_LIST, ({ page, tag }) => ({
   tag,
 }));
 export const remove = createAction(REMOVE, ({ _id }) => ({ _id }));
+export const reset = createAction(RESET, () => ({}));
 
 const saveSaga = createRequestSaga(SAVE, articleAPI.save);
 const getOnceSaga = createRequestSaga(GET_ONCE, articleAPI.get);
@@ -113,6 +115,7 @@ const article = handleActions(
       ...state,
       articleError: error,
     }),
+    [RESET]: () => ({ ...initialState }),
   },
   initialState,
 );
