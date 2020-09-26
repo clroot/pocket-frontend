@@ -47,16 +47,24 @@ const StyledButton = styled.button`
   ${buttonStyle}
 `;
 
+const StyledA = styled.a`
+  ${buttonStyle}
+  display: block;
+  text-align: center;
+`;
+
 const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
 const Button = (props) => {
-  return props.to ? (
-    <StyledLink {...props} indigo={props.indigo ? 1 : 0} />
-  ) : (
-    <StyledButton {...props} />
-  );
+  if (props.to) {
+    return <StyledLink {...props} indigo={props.indigo ? 1 : 0} />;
+  } else if (props.href) {
+    return <StyledA {...props} />;
+  } else {
+    return <StyledButton {...props} />;
+  }
 };
 
 export default Button;
