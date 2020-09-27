@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, takeEvery } from 'redux-saga/effects';
 import produce from 'immer';
 import createRequestSaga, {
   createRequestActionTypes,
@@ -47,7 +47,7 @@ const getListSaga = createRequestSaga(GET_LIST, articleAPI.list);
 const removeSage = createRequestSaga(REMOVE, articleAPI.remove);
 
 export function* articleSaga() {
-  yield takeLatest(SAVE, saveSaga);
+  yield takeEvery(SAVE, saveSaga);
   yield takeLatest(GET_ONCE, getOnceSaga);
   yield takeLatest(GET_LIST, getListSaga);
   yield takeLatest(REMOVE, removeSage);
