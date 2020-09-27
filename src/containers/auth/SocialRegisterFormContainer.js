@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { changeField, initializeForm, register } from '../../modules/auth';
+import {
+  changeField,
+  initializeForm,
+  socialRegister,
+} from '../../modules/auth';
 import { check } from '../../modules/user';
-import AuthForm from '../../components/auth/AuthForm';
+import SocialRegisterForm from '../../components/auth/SocialRegisterForm';
 
-const RegisterForm = ({ history }) => {
+const SocialRegisterFormContainer = ({ history }) => {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
-    form: auth.register,
+    form: auth.socialRegister,
     auth: auth.auth,
     authError: auth.authError,
     user: user.user,
@@ -20,7 +24,7 @@ const RegisterForm = ({ history }) => {
     const { value, name } = e.target;
     dispatch(
       changeField({
-        form: 'register',
+        form: 'socialRegister',
         key: name,
         value,
       }),
@@ -29,24 +33,18 @@ const RegisterForm = ({ history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { email, username, password, passwordConfirm } = form;
+    const { email, username } = form;
 
-    if ([email, username, password, passwordConfirm].includes('')) {
+    if ([email, username].includes('')) {
       setError('빈 칸을 모두 입력하세요.');
       return;
     }
-    if (password !== passwordConfirm) {
-      setError('비밀번호가 일치하지 않습니다.');
-      changeField({ form: 'register', key: 'password', value: '' });
-      changeField({ form: 'register', key: 'passwordConfirm', value: '' });
-      return;
-    }
 
-    dispatch(register({ email, username, password }));
+    dispatch(socialRegister({ email, username }));
   };
 
   useEffect(() => {
-    dispatch(initializeForm('register'));
+    dispatch(initializeForm('socialRegister'));
   }, [dispatch]);
 
   useEffect(() => {
@@ -77,7 +75,7 @@ const RegisterForm = ({ history }) => {
   }, [user, history]);
 
   return (
-    <AuthForm
+    <SocialRegisterForm
       type="register"
       form={form}
       onChange={onChange}
@@ -87,4 +85,4 @@ const RegisterForm = ({ history }) => {
   );
 };
 
-export default withRouter(RegisterForm);
+export default withRouter(SocialRegisterFormContainer);

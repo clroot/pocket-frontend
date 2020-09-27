@@ -25,7 +25,7 @@ const buttonStyle = css`
   }
 
   ${(props) =>
-    props.fullWidth &&
+    props?.fullWidth &&
     css`
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
@@ -34,7 +34,7 @@ const buttonStyle = css`
     `}
 
   ${(props) =>
-    props.indigo &&
+    props?.indigo &&
     css`
       background: ${palette.indigo[5]};
       &:hover {
@@ -47,16 +47,26 @@ const StyledButton = styled.button`
   ${buttonStyle}
 `;
 
+const StyledA = styled.a`
+  display: block;
+  text-align: center;
+  ${buttonStyle}
+`;
+
 const StyledLink = styled(Link)`
+  display: block;
+  text-align: center;
   ${buttonStyle}
 `;
 
 const Button = (props) => {
-  return props.to ? (
-    <StyledLink {...props} indigo={props.indigo ? 1 : 0} />
-  ) : (
-    <StyledButton {...props} />
-  );
+  if (props.to) {
+    return <StyledLink {...props} indigo={props?.indigo ? 1 : 0} />;
+  } else if (props.href) {
+    return <StyledA {...props} />;
+  } else {
+    return <StyledButton {...props} />;
+  }
 };
 
 export default Button;

@@ -43,6 +43,15 @@ const Footer = styled.div`
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
+const KakaoLoginButton = styled(Button)`
+  margin-top: 0.5rem;
+  background: #ffd43b;
+  color: black;
+
+  &:hover {
+    background: #ffe066;
+  }
+`;
 
 const textMap = {
   login: '로그인',
@@ -58,17 +67,32 @@ const ErrorMessage = styled.div`
 
 const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
   const text = textMap[type];
+  const host =
+    process.env.NODE_ENV === 'production'
+      ? 'https://pocket.clroot.io'
+      : 'http://localhost:4000';
+  const redirectTo = `${host}/api/v1/auth/social/login/kakao`;
+
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
       <form onSubmit={onSubmit}>
         <StyledInput
-          autoComplete="username"
-          name="username"
-          placeholder="아이디"
+          autoComplete="email"
+          name="email"
+          placeholder="이메일"
           onChange={onChange}
-          value={form.username}
+          value={form.email}
         />
+        {type === 'register' && (
+          <StyledInput
+            autoComplete="username"
+            name="username"
+            placeholder="닉네임"
+            onChange={onChange}
+            value={form.username}
+          />
+        )}
         <StyledInput
           autoComplete="current-password"
           name="password"
@@ -91,6 +115,9 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
         <ButtonWithMarginTop indigo fullWidth>
           {text}
         </ButtonWithMarginTop>
+        <KakaoLoginButton fullWidth href={redirectTo}>
+          카카오 로그인
+        </KakaoLoginButton>
       </form>
       <Footer>
         {type === 'login' ? (

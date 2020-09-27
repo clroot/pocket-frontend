@@ -11,6 +11,11 @@ const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes(
   'auth/REGISTER',
 );
+const [
+  SOCIAL_REGISTER,
+  SOCIAL_REGISTER_SUCCESS,
+  SOCIAL_REGISTER_FAILURE,
+] = createRequestActionTypes('auth/SOCIAL_REGISTER');
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(
   'auth/LOGIN',
 );
@@ -21,32 +26,50 @@ export const changeField = createAction(
   ({ form, key, value }) => ({ form, key, value }),
 );
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
-export const register = createAction(REGISTER, ({ username, password }) => ({
-  username,
-  password,
-}));
-export const login = createAction(LOGIN, ({ username, password }) => ({
-  username,
+export const register = createAction(
+  REGISTER,
+  ({ email, username, password }) => ({
+    email,
+    username,
+    password,
+  }),
+);
+export const socialRegister = createAction(
+  SOCIAL_REGISTER,
+  ({ email, username }) => ({ email, username }),
+);
+export const login = createAction(LOGIN, ({ email, password }) => ({
+  email,
   password,
 }));
 export const reset = createAction(RESET, () => ({}));
 
 // Create SAGA
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
+const socialRegisterSaga = createRequestSaga(
+  SOCIAL_REGISTER,
+  authAPI.socialRegister,
+);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
+  yield takeLatest(SOCIAL_REGISTER, socialRegisterSaga);
   yield takeLatest(LOGIN, loginSaga);
 }
 
 const initialState = {
   register: {
+    email: '',
     username: '',
     password: '',
     passwordConfirm: '',
   },
-  login: {
+  socialRegister: {
+    email: '',
     username: '',
+  },
+  login: {
+    email: '',
     password: '',
   },
   auth: null,
@@ -70,6 +93,15 @@ const auth = handleActions(
       auth,
     }),
     [REGISTER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    [SOCIAL_REGISTER_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    [SOCIAL_REGISTER_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
     }),
