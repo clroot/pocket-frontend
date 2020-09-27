@@ -25,7 +25,7 @@ const buttonStyle = css`
   }
 
   ${(props) =>
-    props.fullWidth &&
+    props?.fullWidth &&
     css`
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
@@ -34,7 +34,7 @@ const buttonStyle = css`
     `}
 
   ${(props) =>
-    props.indigo &&
+    props?.indigo &&
     css`
       background: ${palette.indigo[5]};
       &:hover {
@@ -48,18 +48,20 @@ const StyledButton = styled.button`
 `;
 
 const StyledA = styled.a`
-  ${buttonStyle}
   display: block;
   text-align: center;
+  ${buttonStyle}
 `;
 
 const StyledLink = styled(Link)`
+  display: block;
+  text-align: center;
   ${buttonStyle}
 `;
 
 const Button = (props) => {
   if (props.to) {
-    return <StyledLink {...props} indigo={props.indigo ? 1 : 0} />;
+    return <StyledLink {...props} indigo={props?.indigo ? 1 : 0} />;
   } else if (props.href) {
     return <StyledA {...props} />;
   } else {
