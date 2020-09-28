@@ -73,7 +73,9 @@ const TagLink = ({ tag, active, makeTagRemoveCallback }) => {
       <StyledLink to={to} active={active}>
         #{tag}
       </StyledLink>
-      {isHovered && <FaTrash onClick={makeTagRemoveCallback(tag)} />}
+      {isHovered && (
+        <FaTrash onClick={makeTagRemoveCallback({ tag, active })} />
+      )}
     </TagLinkBlock>
   );
 };
