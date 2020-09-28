@@ -11,6 +11,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import rootReducer, { rootSaga } from './modules';
 import { tempSetUser, check } from './modules/user';
+import { decodeBase64 } from './lib/utils';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -26,9 +27,7 @@ function loadUser() {
       user = localStorage.getItem('user');
       if (!user) return;
     } else {
-      const buffer = Buffer.from(loginToken, 'base64');
-      user = JSON.parse(buffer.toString());
-
+      user = JSON.parse(decodeBase64(loginToken));
       localStorage.setItem('user', JSON.stringify(user));
     }
 
