@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import qs from 'qs';
 import {
   changeField,
   initializeForm,
@@ -8,8 +9,9 @@ import {
 } from '../../modules/auth';
 import { check } from '../../modules/user';
 import SocialRegisterForm from '../../components/auth/SocialRegisterForm';
+import { decodeBase64 } from '../../lib/utils';
 
-const SocialRegisterFormContainer = ({ history }) => {
+const SocialRegisterFormContainer = ({ history, location }) => {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
@@ -44,8 +46,14 @@ const SocialRegisterFormContainer = ({ history }) => {
   };
 
   useEffect(() => {
+    const { info = '' } = qs.parse(location.search.slice(1));
+    const { username } = JSON.parse(decodeBase64(info));
+
     dispatch(initializeForm('socialRegister'));
-  }, [dispatch]);
+    dispatch(
+      changeField({ form: 'socialRegister', key: 'username', value: username }),
+    );
+  }, [dispatch, location]);
 
   useEffect(() => {
     if (authError) {
