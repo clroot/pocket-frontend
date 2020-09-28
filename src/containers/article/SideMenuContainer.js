@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SideMenu from '../../components/article/SideMenu';
-import { getTags } from '../../modules/user';
+import { getTags, removeUserTag } from '../../modules/user';
 
 const SideMenuContainer = () => {
   const dispatch = useDispatch();
@@ -9,11 +9,15 @@ const SideMenuContainer = () => {
     tags: user.tags,
   }));
 
+  const makeTagRemoveCallback = (tagName) => () => {
+    dispatch(removeUserTag(tagName));
+  };
+
   useEffect(() => {
     dispatch(getTags());
   }, [dispatch]);
 
-  return <SideMenu tags={tags} />;
+  return <SideMenu tags={tags} makeTagRemoveCallback={makeTagRemoveCallback} />;
 };
 
 export default SideMenuContainer;
