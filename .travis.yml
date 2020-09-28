@@ -25,7 +25,7 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: clroot-pocket-deploy
+    bucket: clroot-pocket-frontend-deploy
     region: ap-northeast-2
     skip_cleanup: true
     acl: private
@@ -37,7 +37,7 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-    bucket: clroot-pocket-deploy # S3 버킷
+    bucket: clroot-pocket-frontend-deploy # S3 버킷
     key: pocket-frontend.zip
     bundle_type: zip
     application: pocket-frontend # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
