@@ -23,24 +23,23 @@ before_deploy:
   - mv before-deploy/before-deploy.zip deploy/pocket-frontend.zip
 deploy:
   - provider: s3
+    skip_cleanup: true
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
     bucket: clroot-pocket-frontend-deploy
     region: ap-northeast-2
-    skip_cleanup: true
     acl: private
     local_dir: deploy
-    wait-until-deployed: true
     on:
       repo: clroot/pocket-frontend
       branch: master
   - provider: codedeploy
-    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
-    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-    bucket: clroot-pocket-frontend-deploy # S3 버킷
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: clroot-pocket-frontend-deploy
     key: pocket-frontend.zip
     bundle_type: zip
-    application: pocket-frontend # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    application: pocket-frontend
     deployment_group: pocket-frontend-deploy
     region: ap-northeast-2
     wait-until-deployed: true
