@@ -22,7 +22,9 @@ const store = createStore(
 function loadUser() {
   try {
     let user;
-    const { loginToken } = qs.parse(window.location.search.slice(1));
+    const { loginToken } = qs.parse(window.location.search, {
+      ignoreQueryPrefix: true,
+    });
     if (!loginToken) {
       user = localStorage.getItem('user');
       if (!user) return;
