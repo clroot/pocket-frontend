@@ -24,6 +24,11 @@ const [
 ] = createRequestActionTypes('user/REMOVE_USER_TAG');
 const ADD_TAGS = 'user/ADD_TAGS';
 const RESET = 'user/RESET';
+const [
+  EMAIL_VERIFY,
+  EMAIL_VERIFY_SUCCESS,
+  EMAIL_VERIFY_FAILURE,
+] = createRequestActionTypes('user/EMAIL_VERIFY');
 
 export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);
 export const check = createAction(CHECK);
@@ -32,10 +37,12 @@ export const getTags = createAction(GET_TAGS, () => ({}));
 export const addTags = createAction(ADD_TAGS, (tags) => tags);
 export const removeUserTag = createAction(REMOVE_USER_TAG, (tag) => tag);
 export const reset = createAction(RESET, () => ({}));
+export const emailVerify = createAction(EMAIL_VERIFY, (token) => ({ token }));
 
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
 const getTagsSaga = createRequestSaga(GET_TAGS, userAPI.getTags);
 const removeUserTagSaga = createRequestSaga(REMOVE_USER_TAG, userAPI.removeTag);
+const emailVerifySaga = createRequestSaga(EMAIL_VERIFY, userAPI.emailVerify);
 
 function checkFailureSaga() {
   try {
@@ -60,12 +67,17 @@ export function* userSaga() {
   yield takeLatest(LOGOUT, logoutSaga);
   yield takeLatest(GET_TAGS, getTagsSaga);
   yield takeLatest(REMOVE_USER_TAG, removeUserTagSaga);
+  yield takeLatest(EMAIL_VERIFY, emailVerifySaga);
 }
 
 const initialState = {
   user: null,
   tags: null,
   checkError: null,
+  ssm: {
+    type: null,
+    status: null,
+  },
 };
 
 export default handleActions(
@@ -111,6 +123,16 @@ export default handleActions(
       tags: null,
     }),
     [RESET]: () => ({ ...initialState }),
+    [EMAIL_VERIFY_SUCCESS]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.ssm.type = 'email-verify';
+        draft.ssm.status = true;
+      }),
+    [EMAIL_VERIFY_FAILURE]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.ssm.type = 'email-verify';
+        draft.ssm.status = false;
+      }),
   },
   initialState,
 );

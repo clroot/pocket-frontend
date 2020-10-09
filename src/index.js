@@ -10,7 +10,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import rootReducer, { rootSaga } from './modules';
-import { tempSetUser, check } from './modules/user';
+import { tempSetUser, check, emailVerify } from './modules/user';
 import { decodeBase64 } from './lib/utils';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -22,15 +22,22 @@ const store = createStore(
 function loadUser() {
   try {
     let user;
-    const { loginToken } = qs.parse(window.location.search, {
-      ignoreQueryPrefix: true,
-    });
+    const { loginToken, emailVerify: emailToken } = qs.parse(
+      window.location.search,
+      {
+        ignoreQueryPrefix: true,
+      },
+    );
     if (!loginToken) {
       user = localStorage.getItem('user');
       if (!user) return;
     } else {
       user = JSON.parse(decodeBase64(loginToken));
       localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    if (emailToken) {
+      store.dispatch(emailVerify(emailToken));
     }
 
     store.dispatch(tempSetUser(user));
