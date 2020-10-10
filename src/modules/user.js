@@ -123,15 +123,15 @@ export default handleActions(
       tags: null,
     }),
     [RESET]: () => ({ ...initialState }),
-    [EMAIL_VERIFY_SUCCESS]: (state, { payload }) =>
+    [EMAIL_VERIFY_SUCCESS]: (state, { payload: { type, status } }) =>
       produce(state, (draft) => {
-        draft.ssm.type = 'email-verify';
-        draft.ssm.status = true;
+        draft.ssm.type = type;
+        draft.ssm.status = status;
       }),
-    [EMAIL_VERIFY_FAILURE]: (state, { payload }) =>
+    [EMAIL_VERIFY_FAILURE]: (state, { payload: error }) =>
       produce(state, (draft) => {
         draft.ssm.type = 'email-verify';
-        draft.ssm.status = false;
+        draft.ssm.status = 'error';
       }),
   },
   initialState,

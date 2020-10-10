@@ -6,6 +6,7 @@ import ArticleFormContainer from '../containers/article/ArticleFormContainer';
 import ArticleListContainer from '../containers/article/ArticleListContainer';
 import SideMenuContainer from '../containers/article/SideMenuContainer';
 import PaginationContainer from '../containers/article/PaginationContainer';
+import MessageModalContainer from '../containers/common/MessageModalContainer';
 
 const ArticleListPage = () => {
   return (
@@ -18,6 +19,7 @@ const ArticleListPage = () => {
           side={<SideMenuContainer />}
         />
         <PaginationContainer />
+        <MessageModalContainer />
       </Responsive>
     </div>
   );
