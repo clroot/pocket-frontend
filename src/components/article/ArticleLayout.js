@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMediaQuery } from 'react-responsive';
 import Responsive from '../common/Responsive';
+import { medium } from '../../lib/styles/breakPoints';
 
 const Block = styled(Responsive)`
   display: flex;
@@ -13,23 +15,15 @@ const Main = styled.main`
 `;
 const Side = styled.aside`
   width: 12rem;
-
-  @media (max-width: 1440px) {
-    width: 8rem;
-  }
-  @media (max-width: 1312px) {
-    width: 6rem;
-  }
-  @media (max-width: 944px) {
-    display: none;
-  }
 `;
 
 const ArticleLayout = ({ main, side }) => {
+  const isMedium = useMediaQuery({ query: medium });
+
   return (
     <Block>
       <Main>{main}</Main>
-      <Side>{side}</Side>
+      {isMedium && <Side>{side}</Side>}
     </Block>
   );
 };
