@@ -12,6 +12,7 @@ const Block = styled(Responsive)`
 
 const Main = styled.main`
   flex: 1;
+  width: 100%;
 `;
 const Side = styled.aside`
   width: 5rem;

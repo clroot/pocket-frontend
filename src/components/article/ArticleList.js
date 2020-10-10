@@ -1,13 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import ArticleItem from './ArticleItem';
+import * as bp from '../../lib/styles/breakPoints';
 
 const ArticleListBlock = styled.div`
   display: flex;
+  width: 100%;
   flex-wrap: wrap;
-  justify-content: flex-start;
   box-sizing: border-box;
   position: relative;
+  @media ${bp.extraSmall} {
+    justify-content: center;
+  }
+  @media ${bp.small} {
+    justify-content: flex-start;
+  }
 `;
 
 const ArticleList = ({ list, loading }) => {

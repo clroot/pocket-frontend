@@ -19,19 +19,19 @@ const ArticleItemBlock = styled.div`
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 20px 0px;
   }
   @media ${bp.extraSmall} {
-    width: 85%;
+    width: 100%;
   }
   @media ${bp.small} {
-    width: 45%;
+    width: 47%;
   }
   @media ${bp.medium} {
-    width: 30%;
+    width: 31%;
   }
   @media ${bp.large} {
-    width: 22%;
+    width: 23%;
   }
   @media ${bp.extraLarge} {
-    width: 15%;
+    width: 18%;
   }
 `;
 
