@@ -54,6 +54,7 @@ const Modal = ({
   cancelText = '취소',
   onConfirm,
   onCancel,
+  renderConfirmOnly = false,
 }) => {
   const stopPropagation = (e) => {
     e.stopPropagation();
@@ -81,7 +82,9 @@ const Modal = ({
         {description && <p>{description}</p>}
         {children}
         <div className="buttons">
-          <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
+          {!renderConfirmOnly && (
+            <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
+          )}
           <StyledButton cyan onClick={onConfirm}>
             {confirmText}
           </StyledButton>
