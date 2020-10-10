@@ -5,9 +5,9 @@ import qs from 'qs';
 import { FaTrash } from 'react-icons/fa';
 import Sticky from '../common/Sticky';
 import palette from '../../lib/styles/palette';
+import * as bp from '../../lib/styles/breakPoints';
 
 const SideMenuBlock = styled.div`
-  position: fixed;
   padding-left: 0.5rem;
 `;
 
@@ -24,7 +24,6 @@ const StyledTitle = styled.h4`
 const TagLinkBlock = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 125px;
   padding-left: 10px;
   padding-right: 10px;
   &:hover {
@@ -36,14 +35,14 @@ const TagLinkBlock = styled.div`
     margin-top: 4px;
     color: ${palette.indigo[3]};
   }
-  @media (max-width: 1440px) {
-    width: 125px;
+  @media ${bp.medium} {
+    width: 90px;
   }
-  @media (max-width: 1312px) {
+  @media ${bp.large} {
     width: 100px;
   }
-  @media (max-width: 1000px) {
-    width: 90px;
+  @media ${bp.extraLarge} {
+    width: 125px;
   }
 `;
 const StyledLink = styled(Link)`
@@ -84,7 +83,7 @@ const SideMenu = ({ location, tags, makeTagRemoveCallback }) => {
   const query = qs.parse(location.search.slice(1));
   const { tag: activeTag } = query;
   return (
-    <Sticky top={112}>
+    <Sticky top={138}>
       <SideMenuBlock>
         {Array.isArray(tags) && tags.length > 0 && (
           <StyledTitle>태그</StyledTitle>
