@@ -4,12 +4,12 @@ import { FaTags, FaTrash } from 'react-icons/fa';
 import EditArticleModalContainer from '../../containers/article/EditArticleModalContainer';
 import AskRemoveModalContainer from '../../containers/article/AskRemoveModalContainer';
 import palette from '../../lib/styles/palette';
+import * as bp from '../../lib/styles/breakPoints';
 
 const ArticleItemBlock = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 16rem;
   margin: 0.5rem;
   background: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.04) 0px 4px 16px 0px;
@@ -17,6 +17,21 @@ const ArticleItemBlock = styled.div`
   transition: box-shadow 0.25s ease-in 0s;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 20px 0px;
+  }
+  @media ${bp.extraSmall} {
+    width: 85%;
+  }
+  @media ${bp.small} {
+    width: 45%;
+  }
+  @media ${bp.medium} {
+    width: 30%;
+  }
+  @media ${bp.large} {
+    width: 22%;
+  }
+  @media ${bp.extraLarge} {
+    width: 15%;
   }
 `;
 

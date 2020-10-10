@@ -14,7 +14,7 @@ const Main = styled.main`
   flex: 1;
 `;
 const Side = styled.aside`
-  width: 12rem;
+  width: 5rem;
 `;
 
 const ArticleLayout = ({ main, side }) => {
