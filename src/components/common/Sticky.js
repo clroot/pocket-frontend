@@ -44,7 +44,7 @@ const Sticky = ({ className, top, children }) => {
       style={{
         position: fixed ? 'fixed' : undefined,
         top: fixed ? top : undefined,
-        width: width ? width : undefined,
+        width: fixed && width ? width : undefined,
       }}
     >
       {children}

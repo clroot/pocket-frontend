@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { useMediaQuery } from 'react-responsive';
 import { Link, withRouter } from 'react-router-dom';
 import qs from 'qs';
 import { FaTrash } from 'react-icons/fa';
-import Sticky from '../common/Sticky';
 import palette from '../../lib/styles/palette';
 import * as bp from '../../lib/styles/breakPoints';
 
@@ -97,7 +95,9 @@ const TagList = ({ location, tags, makeTagRemoveCallback }) => {
   return (
     <TagListBlock>
       <StyledTitle>태그</StyledTitle>
-      {tags?.length === 0 && <p>저장된 태그가 없습니다.</p>}
+      {tags?.length === 0 && (
+        <p style={{ wordBreak: 'keep-all' }}>저장된 태그가 없습니다.</p>
+      )}
       {tags?.map((tag) => (
         <Tag
           key={tag}
@@ -110,15 +110,4 @@ const TagList = ({ location, tags, makeTagRemoveCallback }) => {
   );
 };
 
-const TagListWrapper = (props) => {
-  const isMedium = useMediaQuery({ query: bp.medium });
-  return isMedium ? (
-    <Sticky top={154}>
-      <TagList {...props} />
-    </Sticky>
-  ) : (
-    <TagList {...props} />
-  );
-};
-
-export default withRouter(TagListWrapper);
+export default withRouter(TagList);

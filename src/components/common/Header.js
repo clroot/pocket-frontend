@@ -25,6 +25,10 @@ const Wrapper = styled(Responsive)`
   .left {
     span {
       margin-right: 5px;
+      svg {
+        position: relative;
+        top: 2px;
+      }
     }
     font-size: 1.125rem;
     font-weight: 800;
