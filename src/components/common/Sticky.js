@@ -5,7 +5,6 @@ import { getScrollTop } from '../../lib/utils';
 const StickyBlock = styled.div``;
 
 const Sticky = ({ className, top, children }) => {
-  const [y, setY] = useState(0);
   const [width, setWidth] = useState(null);
   const element = useRef(null);
   const [fixed, setFixed] = useState(false);
@@ -14,7 +13,6 @@ const Sticky = ({ className, top, children }) => {
     if (!element.current) return;
     const pos = element.current.getBoundingClientRect();
     setWidth(pos.width);
-    setY(pos.top + getScrollTop());
   }, [element]);
 
   const onScroll = useCallback(() => {
