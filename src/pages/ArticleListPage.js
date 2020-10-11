@@ -4,7 +4,7 @@ import ArticleLayout from '../components/article/ArticleLayout';
 import HeaderContainer from '../containers/common/HeaderContainer';
 import ArticleFormContainer from '../containers/article/ArticleFormContainer';
 import ArticleListContainer from '../containers/article/ArticleListContainer';
-import SideMenuContainer from '../containers/article/SideMenuContainer';
+import TagListContainer from '../containers/article/TagListContainer';
 import PaginationContainer from '../containers/article/PaginationContainer';
 import MessageModalContainer from '../containers/common/MessageModalContainer';
 
@@ -16,7 +16,7 @@ const ArticleListPage = () => {
         <ArticleFormContainer />
         <ArticleLayout
           main={<ArticleListContainer />}
-          side={<SideMenuContainer />}
+          side={<TagListContainer />}
         />
         <PaginationContainer />
         <MessageModalContainer />

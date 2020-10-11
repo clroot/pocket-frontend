@@ -8,7 +8,7 @@ import Sticky from '../common/Sticky';
 import palette from '../../lib/styles/palette';
 import * as bp from '../../lib/styles/breakPoints';
 
-const SideMenuBlock = styled.div`
+const TagListBlock = styled.div`
   padding-left: 0.5rem;
 `;
 
@@ -25,7 +25,7 @@ const StyledTitle = styled.h4`
   }
 `;
 
-const TagLinkBlock = styled.div`
+const TagBlock = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -72,11 +72,11 @@ const StyledLink = styled(Link)`
     `}
 `;
 
-const TagLink = ({ tag, active, makeTagRemoveCallback }) => {
+const Tag = ({ tag, active, makeTagRemoveCallback }) => {
   const to = active ? '/' : `/?tag=${tag}`;
   const [isHovered, setIsHovered] = useState(false);
   return (
-    <TagLinkBlock
+    <TagBlock
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -86,38 +86,39 @@ const TagLink = ({ tag, active, makeTagRemoveCallback }) => {
       {isHovered && (
         <FaTrash onClick={makeTagRemoveCallback({ tag, active })} />
       )}
-    </TagLinkBlock>
+    </TagBlock>
   );
 };
 
-const SideMenu = ({ location, tags, makeTagRemoveCallback }) => {
+const TagList = ({ location, tags, makeTagRemoveCallback }) => {
   const query = qs.parse(location.search.slice(1));
   const { tag: activeTag } = query;
 
   return (
-    <SideMenuBlock>
-      {tags?.length > 0 && <StyledTitle>태그</StyledTitle>}
+    <TagListBlock>
+      <StyledTitle>태그</StyledTitle>
+      {tags?.length === 0 && <p>저장된 태그가 없습니다.</p>}
       {tags?.map((tag) => (
-        <TagLink
+        <Tag
           key={tag}
           tag={tag}
           active={tag === activeTag}
           makeTagRemoveCallback={makeTagRemoveCallback}
         />
       ))}
-    </SideMenuBlock>
+    </TagListBlock>
   );
 };
 
-const SideMenuWrapper = (props) => {
+const TagListWrapper = (props) => {
   const isMedium = useMediaQuery({ query: bp.medium });
   return isMedium ? (
     <Sticky top={138}>
-      <SideMenu {...props} />
+      <TagList {...props} />
     </Sticky>
   ) : (
-    <SideMenu {...props} />
+    <TagList {...props} />
   );
 };
 
-export default withRouter(SideMenuWrapper);
+export default withRouter(TagListWrapper);

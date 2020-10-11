@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import SideMenu from '../../components/article/SideMenu';
+import TagList from '../../components/article/TagList';
 import { getTags, removeUserTag } from '../../modules/user';
 
-const SideMenuContainer = ({ history }) => {
+const TagListContainer = ({ history }) => {
   const dispatch = useDispatch();
   const { tags } = useSelector(({ user }) => ({
     tags: user.tags,
@@ -19,7 +19,7 @@ const SideMenuContainer = ({ history }) => {
     dispatch(getTags());
   }, [dispatch]);
 
-  return <SideMenu tags={tags} makeTagRemoveCallback={makeTagRemoveCallback} />;
+  return <TagList tags={tags} makeTagRemoveCallback={makeTagRemoveCallback} />;
 };
 
-export default withRouter(SideMenuContainer);
+export default withRouter(TagListContainer);

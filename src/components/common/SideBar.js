@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { MdArrowBack } from 'react-icons/md';
-import SideMenuContainer from '../../containers/article/SideMenuContainer';
+import TagListContainer from '../../containers/article/TagListContainer';
 
 const SideBarBlock = styled.div`
   position: fixed;
@@ -84,7 +84,7 @@ const SideBar = ({ active = false, closeSideBar }) => {
           <MdArrowBack onClick={closeSideBar} />
         </SideBarHeader>
         <SideBarBody>
-          <SideMenuContainer />
+          <TagListContainer />
         </SideBarBody>
       </SideBarBlock>
       {active && <SideBarBackground onClick={closeSideBar} />}
