@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { useMediaQuery } from 'react-responsive';
 import Responsive from './Responsive';
 import Button from './Button';
+import SideBar from './SideBar';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
+import * as bp from '../../lib/styles/breakPoints';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -18,7 +22,10 @@ const Wrapper = styled(Responsive)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .logo {
+  .left {
+    span {
+      margin-right: 5px;
+    }
     font-size: 1.125rem;
     font-weight: 800;
     letter-spacing: 2px;
@@ -39,13 +46,29 @@ const UserInfo = styled.div`
 `;
 
 const Header = ({ user, onLogout }) => {
+  const isExtraSmall = useMediaQuery({ query: bp.extraSmall });
+  const isMedium = useMediaQuery({ query: bp.medium });
+  const [activeSideBar, setActiveSideBar] = useState(null);
+
+  const openSideBar = () => {
+    setActiveSideBar(true);
+  };
+  const closeSideBar = () => {
+    setActiveSideBar(false);
+  };
+
   return (
     <>
       <HeaderBlock>
         <Wrapper>
-          <Link to="/" className="logo">
-            Pocket
-          </Link>
+          <div className="left">
+            {isExtraSmall && !isMedium && (
+              <span>
+                <AiOutlineMenu onClick={openSideBar} />
+              </span>
+            )}
+            <Link to="/">Pocket</Link>
+          </div>
           {user ? (
             <div className="right">
               <UserInfo>{user.username}</UserInfo>
@@ -59,6 +82,9 @@ const Header = ({ user, onLogout }) => {
         </Wrapper>
       </HeaderBlock>
       <Spacer />
+      {isExtraSmall && !isMedium && (
+        <SideBar active={activeSideBar} closeSideBar={closeSideBar}></SideBar>
+      )}
     </>
   );
 };
