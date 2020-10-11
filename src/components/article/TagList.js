@@ -8,6 +8,7 @@ import * as bp from '../../lib/styles/breakPoints';
 
 const TagListBlock = styled.div`
   padding-left: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 const StyledTitle = styled.h4`
