@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import qs from 'qs';
 import { FaTrash } from 'react-icons/fa';
+import { Helmet } from 'react-helmet-async';
 import palette from '../../lib/styles/palette';
 import * as bp from '../../lib/styles/breakPoints';
 
@@ -75,17 +76,24 @@ const Tag = ({ tag, active, makeTagRemoveCallback }) => {
   const to = active ? '/' : `/?tag=${tag}`;
   const [isHovered, setIsHovered] = useState(false);
   return (
-    <TagBlock
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <StyledLink to={to} active={active}>
-        #{tag}
-      </StyledLink>
-      {isHovered && (
-        <FaTrash onClick={makeTagRemoveCallback({ tag, active })} />
+    <>
+      {active && (
+        <Helmet>
+          <title>Pocket - 태그 : {tag}</title>
+        </Helmet>
       )}
-    </TagBlock>
+      <TagBlock
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <StyledLink to={to} active={active}>
+          #{tag}
+        </StyledLink>
+        {isHovered && (
+          <FaTrash onClick={makeTagRemoveCallback({ tag, active })} />
+        )}
+      </TagBlock>
+    </>
   );
 };
 

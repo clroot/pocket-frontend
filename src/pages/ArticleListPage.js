@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Responsive from '../components/common/Responsive';
 import ArticleLayout from '../components/article/ArticleLayout';
 import HeaderContainer from '../containers/common/HeaderContainer';
@@ -10,7 +11,10 @@ import MessageModalContainer from '../containers/common/MessageModalContainer';
 
 const ArticleListPage = () => {
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>Pocket</title>
+      </Helmet>
       <HeaderContainer />
       <Responsive>
         <ArticleFormContainer />
@@ -21,7 +25,7 @@ const ArticleListPage = () => {
         <PaginationContainer />
         <MessageModalContainer />
       </Responsive>
-    </div>
+    </>
   );
 };
 
