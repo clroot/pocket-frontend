@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { useMediaQuery } from 'react-responsive';
 import { Link, withRouter } from 'react-router-dom';
 import qs from 'qs';
 import { FaTrash } from 'react-icons/fa';
@@ -14,29 +15,38 @@ const SideMenuBlock = styled.div`
 const StyledTitle = styled.h4`
   line-height: 1.5;
   font-size: 0.875rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgb(233, 236, 239);
   margin-top: 0px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   font-weight: bold;
+  @media ${bp.medium} {
+    border-bottom: 1px solid rgb(233, 236, 239);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const TagLinkBlock = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-left: 10px;
-  padding-right: 10px;
+  width: 100%;
   &:hover {
     background: ${palette.indigo[1]};
     border-radius: 5px;
   }
 
   & svg {
-    margin-top: 4px;
+    position: relative;
+    top: 4px;
+    right: 10px;
     color: ${palette.indigo[3]};
+    @media ${bp.medium} {
+      right: 0;
+    }
   }
   @media ${bp.medium} {
     width: 90px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   @media ${bp.large} {
     width: 100px;
@@ -45,6 +55,7 @@ const TagLinkBlock = styled.div`
     width: 125px;
   }
 `;
+
 const StyledLink = styled(Link)`
   display: block;
   width: 100%;
@@ -82,24 +93,31 @@ const TagLink = ({ tag, active, makeTagRemoveCallback }) => {
 const SideMenu = ({ location, tags, makeTagRemoveCallback }) => {
   const query = qs.parse(location.search.slice(1));
   const { tag: activeTag } = query;
+
   return (
-    <Sticky top={138}>
-      <SideMenuBlock>
-        {Array.isArray(tags) && tags.length > 0 && (
-          <StyledTitle>태그</StyledTitle>
-        )}
-        {Array.isArray(tags) &&
-          tags.map((tag) => (
-            <TagLink
-              key={tag}
-              tag={tag}
-              active={tag === activeTag}
-              makeTagRemoveCallback={makeTagRemoveCallback}
-            />
-          ))}
-      </SideMenuBlock>
-    </Sticky>
+    <SideMenuBlock>
+      {tags?.length > 0 && <StyledTitle>태그</StyledTitle>}
+      {tags?.map((tag) => (
+        <TagLink
+          key={tag}
+          tag={tag}
+          active={tag === activeTag}
+          makeTagRemoveCallback={makeTagRemoveCallback}
+        />
+      ))}
+    </SideMenuBlock>
   );
 };
 
-export default withRouter(SideMenu);
+const SideMenuWrapper = (props) => {
+  const isMedium = useMediaQuery({ query: bp.medium });
+  return isMedium ? (
+    <Sticky top={138}>
+      <SideMenu {...props} />
+    </Sticky>
+  ) : (
+    <SideMenu {...props} />
+  );
+};
+
+export default withRouter(SideMenuWrapper);
