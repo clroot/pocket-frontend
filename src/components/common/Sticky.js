@@ -19,11 +19,11 @@ const Sticky = ({ className, top, children }) => {
 
   const onScroll = useCallback(() => {
     const scrollTop = getScrollTop();
-    const nextFixed = scrollTop + 112 > y;
+    const nextFixed = scrollTop > 0;
     if (fixed !== nextFixed) {
       setFixed(nextFixed);
     }
-  }, [fixed, y]);
+  }, [fixed]);
 
   useEffect(() => {
     setup();
