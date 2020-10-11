@@ -6,12 +6,14 @@ const StickyBlock = styled.div``;
 
 const Sticky = ({ className, top, children }) => {
   const [y, setY] = useState(0);
+  const [width, setWidth] = useState(null);
   const element = useRef(null);
   const [fixed, setFixed] = useState(false);
 
   const setup = useCallback(() => {
     if (!element.current) return;
     const pos = element.current.getBoundingClientRect();
+    setWidth(pos.width);
     setY(pos.top + getScrollTop());
   }, [element]);
 
@@ -42,6 +44,7 @@ const Sticky = ({ className, top, children }) => {
       style={{
         position: fixed ? 'fixed' : undefined,
         top: fixed ? top : undefined,
+        width: width ? width : undefined,
       }}
     >
       {children}
