@@ -113,7 +113,7 @@ const TagList = ({ location, tags, makeTagRemoveCallback }) => {
 const TagListWrapper = (props) => {
   const isMedium = useMediaQuery({ query: bp.medium });
   return isMedium ? (
-    <Sticky top={138}>
+    <Sticky top={154}>
       <TagList {...props} />
     </Sticky>
   ) : (
