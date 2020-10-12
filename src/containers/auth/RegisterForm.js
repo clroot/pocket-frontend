@@ -52,7 +52,11 @@ const RegisterForm = ({ history }) => {
   useEffect(() => {
     if (authError) {
       if (authError.response.status === 409) {
-        setError('이미 존재하는 계정명입니다.');
+        setError(
+          authError.response.data.field === 'email'
+            ? '이미 사용중인 이메일입니다.'
+            : '이미 사용중인 닉네임입니다.',
+        );
         return;
       }
       setError('회원가입 실패');
@@ -60,7 +64,6 @@ const RegisterForm = ({ history }) => {
     }
     if (auth) {
       console.log('register success');
-      console.log(auth);
       dispatch(check());
     }
   }, [auth, authError, dispatch]);
