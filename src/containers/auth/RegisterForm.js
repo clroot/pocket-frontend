@@ -7,6 +7,7 @@ import AuthForm from '../../components/auth/AuthForm';
 
 const RegisterForm = ({ history }) => {
   const [error, setError] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -42,7 +43,8 @@ const RegisterForm = ({ history }) => {
       return;
     }
 
-    dispatch(register({ email, username, password }));
+    !isSubmitted && dispatch(register({ email, username, password }));
+    setIsSubmitted(true);
   };
 
   useEffect(() => {
@@ -57,6 +59,7 @@ const RegisterForm = ({ history }) => {
             ? '이미 사용중인 이메일입니다.'
             : '이미 사용중인 닉네임입니다.',
         );
+        setIsSubmitted(false);
         return;
       }
       setError('회원가입 실패');
@@ -66,7 +69,7 @@ const RegisterForm = ({ history }) => {
       console.log('register success');
       dispatch(check());
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError, dispatch, setIsSubmitted]);
 
   useEffect(() => {
     if (user) {
