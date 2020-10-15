@@ -62,6 +62,10 @@ const LoginForm = ({ history }) => {
     }
   }, [history, user]);
 
+  useEffect(() => {
+    setError('');
+  }, [form, setError]);
+
   return (
     <AuthForm
       type="login"

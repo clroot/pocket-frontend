@@ -82,6 +82,10 @@ const RegisterForm = ({ history }) => {
     }
   }, [user, history]);
 
+  useEffect(() => {
+    setError('');
+  }, [form, setError]);
+
   return (
     <AuthForm
       type="register"
