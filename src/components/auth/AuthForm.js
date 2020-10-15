@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
+import palette from '../../lib/styles/palette';
+import { getAppHost } from '../../lib/utils';
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -67,10 +68,7 @@ const ErrorMessage = styled.div`
 
 const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
   const text = textMap[type];
-  const host =
-    process.env.NODE_ENV === 'production'
-      ? 'https://pocket.clroot.io'
-      : 'http://localhost:4000';
+  const host = getAppHost();
   const redirectTo = `${host}/api/v1/auth/social/login/kakao`;
 
   return (
