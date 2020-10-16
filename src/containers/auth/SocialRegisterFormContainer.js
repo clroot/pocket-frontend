@@ -13,6 +13,7 @@ import { decodeBase64 } from '../../lib/utils';
 
 const SocialRegisterFormContainer = ({ history, location }) => {
   const [error, setError] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const dispatch = useDispatch();
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -42,7 +43,8 @@ const SocialRegisterFormContainer = ({ history, location }) => {
       return;
     }
 
-    dispatch(socialRegister({ email, username }));
+    !isSubmitted && dispatch(socialRegister({ email, username }));
+    setIsSubmitted(true);
   };
 
   useEffect(() => {
@@ -56,9 +58,15 @@ const SocialRegisterFormContainer = ({ history, location }) => {
   }, [dispatch, location]);
 
   useEffect(() => {
+    setIsSubmitted(false);
     if (authError) {
       if (authError.response.status === 409) {
-        setError('이미 존재하는 계정명입니다.');
+        setError(
+          authError.response.data.field === 'email'
+            ? '이미 사용중인 이메일입니다.'
+            : '이미 사용중인 닉네임입니다.',
+        );
+        setIsSubmitted(false);
         return;
       }
       setError('회원가입 실패');
@@ -66,10 +74,13 @@ const SocialRegisterFormContainer = ({ history, location }) => {
     }
     if (auth) {
       console.log('register success');
-      console.log(auth);
       dispatch(check());
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError, dispatch, setIsSubmitted]);
+
+  useEffect(() => {
+    setError('');
+  }, [form, setError]);
 
   useEffect(() => {
     if (user) {
