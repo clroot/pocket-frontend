@@ -16,7 +16,7 @@ export const decodeBase64 = (string) => {
   return buffer.toString();
 };
 
-export const getAppHost = () =>
+export const getApiHost = () =>
   process.env.NODE_ENV === 'production'
     ? 'https://pocket.clroot.io'
-    : 'http://localhost:3000';
+    : 'http://localhost:4000';
