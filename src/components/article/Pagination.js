@@ -19,6 +19,7 @@ const buildLink = ({ tag, page }) => {
 };
 
 const Pagination = ({ page, lastPage, tag }) => {
+  const isNextDisabled = page === lastPage || lastPage === 0;
   return (
     <PaginationBlock>
       <Button
@@ -29,8 +30,8 @@ const Pagination = ({ page, lastPage, tag }) => {
       </Button>
       <PageNumber>{page}</PageNumber>
       <Button
-        disabled={page === lastPage}
-        to={page === lastPage ? undefined : buildLink({ tag, page: page + 1 })}
+        disabled={isNextDisabled}
+        to={isNextDisabled ? undefined : buildLink({ tag, page: page + 1 })}
       >
         다음
       </Button>
